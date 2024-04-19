@@ -1,7 +1,11 @@
 package org.autenticacao.login.users.controller;
 
+import org.autenticacao.login.users.exceptions.UserAlreadyExistException;
 import org.autenticacao.login.users.service.UserService;
 import org.autenticacao.login.users.user.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +24,7 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -37,7 +42,11 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public void createUser(@RequestBody User user) {
-        userService.createUser(user);
+        try {
+            userService.createUser(user);
+        } catch (UserAlreadyExistException e) {
+            LOGGER.info(e.getMessage());
+        }
     }
 
     @PutMapping

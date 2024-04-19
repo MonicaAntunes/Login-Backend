@@ -54,6 +54,17 @@ public class User {
 
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || getClass() != obj.getClass()) return false;
+        User user = (User) obj;
+        return (getId().equals(user.id) && getUsername().equalsIgnoreCase(user.username) && getPassword().equalsIgnoreCase(user.username));
+    }
+
+    public Long getId() {
+        return id;
+    }
+
     public String getUsername() {
         return username;
     }

@@ -1,5 +1,7 @@
 package org.autenticacao.login.users.service;
 
+import org.autenticacao.login.users.exceptions.UserAlreadyExistException;
+import org.autenticacao.login.users.exceptions.UserNotFoundException;
 import org.autenticacao.login.users.repository.UserRepositoryInterface;
 import org.autenticacao.login.users.user.User;
 import org.springframework.stereotype.Service;
@@ -22,8 +24,14 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void createUser(User user) {
-        userRepository.save(user);
+    public void createUser(User user) throws UserAlreadyExistException {
+        User foundUser = userRepository.findById(user.getId()).orElseThrow();
+
+        if (user.equals(foundUser)) {
+            throw new UserAlreadyExistException();
+        } else {
+            userRepository.save(user);
+        }
     }
 
     public void updateUser(User user) {
