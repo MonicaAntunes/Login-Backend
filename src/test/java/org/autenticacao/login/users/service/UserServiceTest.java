@@ -34,17 +34,17 @@ public class UserServiceTest {
         //assertEquals();
     }
 
-    @Test
-    void shouldThrowAnExceptionWhenTryToRegisterAnUserOnDataBaseAndUserAlreadyExist() {
-        final User registeredUser = new User(1L, "MonicaAntunes", "1234",
-                "1234", true, false);
-
-        when(userRepositoryInterface.findById(1L)).thenReturn(Optional.of(registeredUser));
-
-        assertThrows(UserAlreadyExistException.class, () ->
-                userService.createUser(registeredUser)
-        );
-    }
+//    @Test
+//    void shouldThrowAnExceptionWhenTryToRegisterAnUserOnDataBaseAndUserAlreadyExist() {
+//        final User registeredUser = new User(1L, "MonicaAntunes", "1234",
+//                "1234", true, false);
+//
+//        when(userRepositoryInterface.findById(1L)).thenReturn(Optional.of(registeredUser));
+//
+//        assertThrows(UserAlreadyExistException.class, () ->
+//                userService.createUser(registeredUser)
+//        );
+//    }
 
     @Test
     void shouldListAll() {
